@@ -31,3 +31,20 @@ resource "aws_alb" "main" {
   security_groups = [aws_security_group.alb.id]
   subnets         = var.subnets
 }
+
+resource "aws_alb_listener" "http" {
+  load_balancer_arn = aws_alb.main.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_alb.main.arn
+    type             = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      status_code  = "200"
+      message_body = "Hello World!"
+    }
+  }
+}
