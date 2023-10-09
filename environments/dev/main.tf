@@ -33,3 +33,16 @@ locals {
   # rds 関連
   rds_instance_class = "db.t3.micro"
 }
+
+module "my_alb" {
+  source = "../../modules/alb"
+  env    = local.env
+  vpc_id = module.my_vpc.vpc_id
+
+
+  allowed_cidrs   = ""
+  certificate_arn = ""
+  subnets         = module.my_vpc.public_subnet_ids
+  zone_id         = ""
+  zone_name       = ""
+}
